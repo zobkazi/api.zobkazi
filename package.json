@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "@hapi/hapi": "^21.3.10",
+    "bcryptjs": "^2.4.3",
     "boom": "^7.3.0",
     "dotenv": "^16.4.5",
     "joi": "^17.13.3",
