@@ -4,6 +4,12 @@ const router = require("../src/api/routes");
 const app = Hapi.server({
   port: 3000,
   host: "localhost",
+  routes: {
+    cors: true,
+  },
+  debug: {
+    request: ["error"],
+  },
 });
 
 app.route(router);
@@ -15,7 +21,5 @@ app.route({
     return "Hello, Hapi!";
   },
 });
-
-app.start();
 
 module.exports = app;
