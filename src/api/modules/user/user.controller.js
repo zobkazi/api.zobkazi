@@ -2,7 +2,6 @@ const Joi = require("joi");
 const User = require("./user.model");
 const Boom = require("@hapi/boom");
 
-
 const userController = [
   {
     method: "GET",
@@ -20,34 +19,62 @@ const userController = [
         .code(200);
     },
   },
+  // get user by user name
+
   {
-    method: "POST",
-    path: "/users/create",
+    method: "GET",
+    path: "/users/{name}",
     options: {
       validate: {
-        payload: Joi.object({
-          name: Joi.string().required(),
-          email: Joi.string().email().required(),
-          password: Joi.string().required(),
-        }),
         failAction: (request, h, error) => {
           throw Boom.badRequest(error.message);
         },
       },
     },
+    // get user by user name
     handler: async (request, h) => {
-      const { name, email, password } = request.payload;
-      const user = new User({ name, email, password });
-      await user.save();
+      const user = await User.findOne({ name: request.params.name });
+
+      if (!user) {
+        throw Boom.notFound("user not found");
+      }
       return h
         .response({
-          message: "user created successfully",
-          data: user,
+          message: "user fetched successfully",
+          data: {
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          },
           success: true,
-          status: 201,
+          status: 200,
           error: null,
         })
-        .code(201);
+        .code(200);
+    },
+  },
+  {
+    method: "GET",
+    path: "/users/admin",
+    options: {
+      validate: {
+        failAction: (request, h, error) => {
+          throw Boom.badRequest(error.message);
+        },
+      },
+    },
+
+    handler: async (request, h) => {
+      const users = await User.find({ role: "admin" });
+      return h
+        .response({
+          message: "users fetched successfully",
+          data: users,
+          success: true,
+          status: 200,
+          error: null,
+        })
+        .code(200);
     },
   },
 ];
