@@ -1,40 +1,16 @@
-const jwt = require("jsonwebtoken");
-const Boom = require("@hapi/boom");
+const Basic = require("@hapi/basic");
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
-const validateToken = (request, h) => {
-  const authorizationHeader = request.headers.authorization;
-  const token = authorizationHeader && authorizationHeader.split(" ")[1];
+const validateToken = async (request, h) => { 
 
-  if (!authorizationHeader) {
-    throw Boom.unauthorized("No token provided");
-  }
-
+  const token = request.headers.authorization;
   if (!token) {
-    throw Boom.unauthorized("Invalid token");
+    return Boom.unauthorized(null, "No token provided");
   }
-
   try {
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) {
-        if (err.name === "TokenExpiredError") {
-          throw Boom.unauthorized("Token expired");
-        } else {
-          throw Boom.unauthorized("Invalid token");
-        }
-      }
-
-      request.user = decoded;
-
-      return h.continue;
-    });
+    const credentials = await Basic(token);
+    return h.authenticated({ credentials });
   } catch (err) {
-    if (err.isBoom) {
-      throw err.Boom;
-    }
-    throw Boom.unauthorized("Invalid token");
+    return Boom.unauthorized(null, "Invalid token provided");
   }
-};
-
-module.exports = validateToken;
+}
