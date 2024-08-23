@@ -1,6 +1,7 @@
 const Joi = require("joi");
 const User = require("./user.model");
 const Boom = require("@hapi/boom");
+const { updateUserSchema } = require("./user.validation");
 
 const userController = [
   {
@@ -12,7 +13,6 @@ const userController = [
         .response({
           message: "users fetched successfully",
           data: users,
-          success: true,
           status: 200,
           error: null,
         })
@@ -23,7 +23,7 @@ const userController = [
 
   {
     method: "GET",
-    path: "/users/{name}",
+    path: "/user/{user_name}",
     options: {
       validate: {
         failAction: (request, h, error) => {
@@ -31,9 +31,11 @@ const userController = [
         },
       },
     },
-    // get user by user name
+    // get user by user_name
     handler: async (request, h) => {
-      const user = await User.findOne({ name: request.params.name });
+      const user = await User.findOne({ user_name: request.params.user_name });
+
+      console.log("user", user);
 
       if (!user) {
         throw Boom.notFound("user not found");
@@ -41,11 +43,7 @@ const userController = [
       return h
         .response({
           message: "user fetched successfully",
-          data: {
-            name: user.name,
-            email: user.email,
-            role: user.role,
-          },
+          data: user,
           success: true,
           status: 200,
           error: null,
@@ -75,6 +73,55 @@ const userController = [
           error: null,
         })
         .code(200);
+    },
+  },
+
+  // update user by id
+  {
+    method: "PATCH",
+    path: "/users/update/{id}",
+    options: {
+      validate: {
+        params: Joi.object({
+          id: Joi.string()
+            .required()
+            .description("the id of the user to update"),
+        }),
+        payload: updateUserSchema,
+        failAction: async (request, h, err) => {
+          throw Boom.badRequest(`Validation error: ${err.message}`);
+        },
+      },
+      handler: async (request, h) => {
+        const { id } = request.params;
+        const updates = request.payload;
+
+        console.log("User id is", id);
+
+        try {
+          const user = await User.findById(id);
+
+          if (!user) {
+            throw Boom.notFound("User not found");
+          }
+
+          Object.assign(user, updates);
+          await user.save();
+
+          return h
+            .response({ message: "User updated successfully", user })
+            .code(200);
+        } catch (error) {
+          if (error.isBoom) {
+            return error;
+          }
+          return Boom.badImplementation("Failed to update user");
+        }
+      },
+      description: "Update a user by ID",
+      notes:
+        "This endpoint updates a user's information based on the provided ID",
+      tags: ["api", "users"],
     },
   },
 ];
