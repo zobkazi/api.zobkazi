@@ -1,9 +1,8 @@
 // src/api/modules/auth/auth.controller.js
-const { loginSchema, signupSchema } = require("./auth.validate");
-const User = require("../user/user.model");
+const { signupSchema, loginSchema } = require("./auth.validate");
+const { signupUser, signinUser } = require("./auth.service");
 const Boom = require("@hapi/boom");
-const bcrypt = require("bcryptjs");
-const SALT_ROUNDS = 10;
+const Jwt = require("@hapi/jwt");
 
 // Sign up controller
 const signup = async (request, h) => {
@@ -14,24 +13,8 @@ const signup = async (request, h) => {
       throw Boom.badRequest(payload.error.message);
     }
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email: payload.email });
-    if (existingUser) {
-      throw Boom.badRequest("User already exists");
-    }
-    // Hash the password
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
-    const hash = await bcrypt.hash(payload.password, salt);
-
-    // Create new user
-    const user = new User({
-      name: payload.name,
-      email: payload.email,
-      password: hash,
-    });
-
-    // Save user to database
-    await user.save();
+    // Call service to handle signup
+    const user = await signupUser(payload);
 
     return h
       .response({
@@ -56,28 +39,13 @@ const signin = async (request, h) => {
       throw Boom.badRequest(payload.error.message);
     }
 
-    // Check if user exists
-    const user = await User.findOne({ email: payload.email });
-    if (!user) {
-      throw Boom.unauthorized("Invalid email or password-0");
-    }
-
-    // Hash the password
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
-    const hash = await bcrypt.hash(payload.password, salt);
-
-    console.log("Hashed password:", hash);
-
-    // Compare passwords
-    const isMatch = await bcrypt.compare(payload.password, user.password);
-    if (!isMatch) {
-      throw Boom.unauthorized("Invalid email or password-1");
-    }
+    // Call service to handle signin
+    const { user, token } = await signinUser(payload);
 
     return h
       .response({
         message: "User logged in successfully",
-        data: user,
+        data: { token },
         success: true,
         status: 200,
         error: null,

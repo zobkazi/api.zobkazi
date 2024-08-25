@@ -25,7 +25,10 @@ const getUserByName = async (request, h) => {
   return h
     .response({
       message: "user fetched successfully",
-      data: user,
+      data: {
+        user_name: user.name,
+        email: user.email,
+      },
       success: true,
       status: 200,
       error: null,

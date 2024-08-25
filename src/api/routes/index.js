@@ -1,3 +1,4 @@
+// src/api/routes.js
 const {
   getUserByAdmin,
   getUserByName,
@@ -16,46 +17,73 @@ const routes = [
     method: "POST",
     path: "/auth/signup",
     handler: signup,
-  },
-  {
-    method: "GET",
-    path: "/users",
-    handler: grtAllUsers,
-  },
-  {
-    method: "GET",
-    path: "/users/{user_name}",
-    handler: getUserByName,
-  },
-  {
-    method: "GET",
-    path: "/users/admin/{user_name}",
-    handler: getUserByAdmin,
+    options: {
+      auth: false,
+    },
   },
   {
     method: "POST",
     path: "/auth/signin",
     handler: signin,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "GET",
+    path: "/users",
+    handler: grtAllUsers,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "GET",
+    path: "/users/{name}",
+    handler: getUserByName,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "GET",
+    path: "/users/admin/{user_name}",
+    handler: getUserByAdmin,
+    options: {
+      auth: false,
+    },
   },
   {
     method: "POST",
     path: "/blogs",
     handler: createBlog,
+    options: {
+      auth: "basic",
+    },
   },
   {
     method: "GET",
     path: "/blogs",
     handler: getBlogs,
+    options: {
+      auth: false,
+    },
   },
   {
     method: "GET",
     path: "/blogs/{blog_id}",
     handler: getBlogById,
+    options: {
+      auth: "basic",
+    },
   },
   {
     method: "DELETE",
     path: "/blogs/{blog_id}",
     handler: deleteBlog,
+    options: {
+      auth: "basic",
+    },
   },
 ];
 

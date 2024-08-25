@@ -1,3 +1,5 @@
+// src/index.js
+
 const connectToDatabase = require("./utils/db_connection");
 const app = require("./server");
 
