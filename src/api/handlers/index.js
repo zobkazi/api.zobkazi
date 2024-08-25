@@ -76,4 +76,8 @@ const updateBlog = async (request, h) => {
 
 module.exports = {
   formatResponse,
+  getBlogs,
+  getBlogById,
+  deleteBlog,
+  updateBlog,
 };
