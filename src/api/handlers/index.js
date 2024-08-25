@@ -52,6 +52,28 @@ const deleteBlog = async (request, h) => {
     .code(200);
 };
 
+// update blog controller
+
+const updateBlog = async (request, h) => {
+  const blog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    request.payload,
+    { new: true }
+  );
+  if (!blog) {
+    throw Boom.notFound("blog not found");
+  }
+  return h
+    .response({
+      message: "blog updated successfully",
+      data: blog,
+      success: true,
+      status: 200,
+      error: null,
+    })
+    .code(200);
+};
+
 module.exports = {
   formatResponse,
 };
