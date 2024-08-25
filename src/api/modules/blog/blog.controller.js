@@ -81,4 +81,7 @@ const deleteBlog = async (request, h) => {
 
 module.exports = {
   createBlog,
+  getBlogs,
+  getBlogById,
+  deleteBlog,
 };
