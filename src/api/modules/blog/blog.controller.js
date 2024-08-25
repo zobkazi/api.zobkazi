@@ -26,6 +26,10 @@ const createBlog = async (request, h) => {
     .code(200);
 };
 
+// create blog controller
+
+// create blog controller
+
 module.exports = {
   createBlog,
 };
