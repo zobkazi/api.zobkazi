@@ -21,6 +21,25 @@ const updateUserService = async (userId, updatedData) => {
   }
 };
 
+// Service for getting paginated users
+const getUsersService = async (page, limit) => {
+  try {
+    // Calculate skip value for pagination
+    const skip = (page - 1) * limit;
+
+    // Fetch paginated users
+    const users = await User.find().skip(skip).limit(limit);
+
+    // Get total count of users
+    const totalCount = await User.countDocuments();
+
+    return { users, totalCount };
+  } catch (error) {
+    throw Boom.badRequest(error.message);
+  }
+};
+
 module.exports = {
   updateUserService,
+  getUsersService,
 };

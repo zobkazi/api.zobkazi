@@ -18,8 +18,6 @@ const sessionPlugin = {
       },
       redirectTo: "/login", // Redirect path if not authenticated
     });
-
-    server.auth.default("session");
   },
 };
 

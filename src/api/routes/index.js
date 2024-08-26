@@ -12,6 +12,7 @@ const {
   getBlogById,
   deleteBlog,
 } = require("../modules/blog/blog.controller");
+const { checkAdminRole } = require("../../plugins/checkAdminRole");
 
 const routes = [
   {
@@ -43,7 +44,7 @@ const routes = [
     path: "/users/update/{userId}",
     handler: updateUser,
     options: {
-      auth: false,
+      auth: "basic",
     },
   },
   {
@@ -64,10 +65,10 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/users/admin/{user_name}",
+    path: "/dashboard/admin/{name}",
     handler: getUserByAdmin,
     options: {
-      auth: false,
+      auth: "basic",
     },
   },
   {

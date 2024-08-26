@@ -11,7 +11,12 @@ const basicAuthPlugin = {
         const payload = await basicAuthSchema.validateAsync(session);
         return { isValid: true, credentials: payload };
       },
+
+      // Set default authentication strategy
+      passReqToCallback: true,
     });
+
+    server.auth.default("basic");
   },
 };
 
