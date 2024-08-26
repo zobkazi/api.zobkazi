@@ -1,8 +1,8 @@
 // src/server.js
 const Hapi = require("@hapi/hapi");
 const router = require("../src/api/routes");
-// const authPlugin = require("./plugins/authPlugin");
 const basicAuthPlugin = require("./plugins/basicAuthPlugin");
+const sessionPlugin = require("./plugins/sessionPlugin");
 
 const app = Hapi.server({
   port: process.env.PORT,
@@ -18,7 +18,8 @@ const app = Hapi.server({
 
 const startServer = async () => {
   try {
-    await app.register(basicAuthPlugin); // Ensure authPlugin is registered
+    await app.register(basicAuthPlugin);
+    await app.register(sessionPlugin);
 
     app.route(router);
   } catch (err) {

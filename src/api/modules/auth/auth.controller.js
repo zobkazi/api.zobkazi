@@ -1,8 +1,7 @@
 // src/api/modules/auth/auth.controller.js
 const { signupSchema, loginSchema } = require("./auth.validate");
-const { signupUser, signinUser } = require("./auth.service");
+const { signupUser, signinUser, logOutService } = require("./auth.service");
 const Boom = require("@hapi/boom");
-const Jwt = require("@hapi/jwt");
 
 // Sign up controller
 const signup = async (request, h) => {
@@ -56,4 +55,7 @@ const signin = async (request, h) => {
   }
 };
 
-module.exports = { signup, signin };
+// logout controller
+const logout = async (request, h) => {};
+
+module.exports = { signup, signin, logout };

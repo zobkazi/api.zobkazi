@@ -1,10 +1,8 @@
 // /src/api/modules/auth/auth.service.js
 
-
-
 const User = require("../user/user.model");
 const bcrypt = require("bcryptjs");
-const Jwt = require("@hapi/jwt");
+const Basic = require("@hapi/basic");
 const Boom = require("@hapi/boom");
 
 const SALT_ROUNDS = 10;
@@ -52,16 +50,15 @@ const signinUser = async (credentials) => {
       throw Boom.unauthorized("Invalid email or password");
     }
 
+    // Create a user object excluding the password
+    const userWithoutPassword = {
+      ...user._doc,
+      password: undefined, // Exclude the password field
+    };
+
     // Generate JWT token
-    const token = Jwt.token.generate(
-      {
-        id: user._id,
-        email: user.email,
-      },
-      {
-        key: process.env.JWT_SECRET || "zobkazi",
-        algorithm: "HS256",
-      }
+    const token = Buffer.from(JSON.stringify(userWithoutPassword)).toString(
+      "base64"
     );
 
     return { user, token };
@@ -70,4 +67,8 @@ const signinUser = async (credentials) => {
   }
 };
 
-module.exports = { signupUser, signinUser };
+//  Service for logOut
+const logOutService = async () => {};
+
+// Export services
+module.exports = { signupUser, signinUser, logOutService };

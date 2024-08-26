@@ -128,6 +128,46 @@ const userSchema = new mongoose.Schema(
       },
       trim: true,
     },
+
+    github_url: {
+      type: String,
+      default: "https://github.com/zobkazi",
+      min: {
+        length: 10,
+        message: "github_url can not be less than 10 characters",
+      },
+      max: {
+        length: 200,
+        message: "github_url can not be more than 200 characters",
+      },
+      trim: true,
+    },
+    gitlab_url: {
+      type: String,
+      default: "https://gitlab.com/zobkazi",
+      min: {
+        length: 10,
+        message: "gitlab_url can not be less than 10 characters",
+      },
+      max: {
+        length: 200,
+        message: "gitlab_url can not be more than 200 characters",
+      },
+      trim: true,
+    },
+    x_url: {
+      type: String,
+      default: "https://x.com/zobkazi",
+      min: {
+        length: 10,
+        message: "x_url can not be less than 10 characters",
+      },
+      max: {
+        length: 200,
+        message: "x_url can not be more than 200 characters",
+      },
+      trim: true,
+    },
   },
   {
     timestamps: true,

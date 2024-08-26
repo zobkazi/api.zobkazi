@@ -3,6 +3,7 @@ const {
   getUserByAdmin,
   getUserByName,
   grtAllUsers,
+  updateUser,
 } = require("../modules/user/user.controller");
 const { signin, signup } = require("../modules/auth/auth.controller");
 const { createBlog } = require("../modules/blog/blog.controller");
@@ -25,6 +26,14 @@ const routes = [
     method: "POST",
     path: "/auth/signin",
     handler: signin,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "PUT",
+    path: "/users/update/{userId}",
+    handler: updateUser,
     options: {
       auth: false,
     },
