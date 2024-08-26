@@ -1,6 +1,6 @@
 // src/api/modules/auth/auth.controller.js
 const { signupSchema, loginSchema } = require("./auth.validate");
-const { signupUser, signinUser, logOutService } = require("./auth.service");
+const { signupUser, signinUser } = require("./auth.service");
 const Boom = require("@hapi/boom");
 
 // Sign up controller
@@ -38,6 +38,9 @@ const signin = async (request, h) => {
       throw Boom.badRequest(payload.error.message);
     }
 
+    // Set session credentials
+    request.cookieAuth.set({ sessionId: payload.email });
+
     // Call service to handle signin
     const { user, token } = await signinUser(payload);
 
@@ -56,6 +59,14 @@ const signin = async (request, h) => {
 };
 
 // logout controller
-const logout = async (request, h) => {};
+const logout = async (request, h) => {
+  try {
+    request.cookieAuth.clear();
+    return h.response({ message: "Logged out successfully" }).code(200);
+  } catch (error) {
+    // Return error response if something goes wrong
+    return Boom.badRequest(error.message);
+  }
+};
 
 module.exports = { signup, signin, logout };
