@@ -67,8 +67,5 @@ const signinUser = async (credentials) => {
   }
 };
 
-//  Service for logOut
-const logOutService = async () => {};
-
 // Export services
-module.exports = { signupUser, signinUser, logOutService };
+module.exports = { signupUser, signinUser };

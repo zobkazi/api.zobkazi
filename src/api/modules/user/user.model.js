@@ -25,10 +25,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      max: {
-        length: 32,
-        message: "password can not be more than 32 characters",
-      },
     },
     role: {
       type: String,

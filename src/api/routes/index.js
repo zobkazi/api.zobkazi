@@ -5,7 +5,7 @@ const {
   grtAllUsers,
   updateUser,
 } = require("../modules/user/user.controller");
-const { signin, signup } = require("../modules/auth/auth.controller");
+const { signin, signup, logout } = require("../modules/auth/auth.controller");
 const { createBlog } = require("../modules/blog/blog.controller");
 const {
   getBlogs,
@@ -28,6 +28,14 @@ const routes = [
     handler: signin,
     options: {
       auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/auth/logout",
+    handler: logout,
+    options: {
+      auth: "session",
     },
   },
   {
