@@ -41,7 +41,7 @@ const routes = [
   },
   {
     method: "PUT",
-    path: "/users/update/{userId}",
+    path: "/user/update/{userId}",
     handler: updateUser,
     options: {
       auth: "basic",
@@ -49,7 +49,7 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/users",
+    path: "/user",
     handler: grtAllUsers,
     options: {
       auth: false,
@@ -89,7 +89,7 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/blogs/{blog_id}",
+    path: "/blog/{blog_id}",
     handler: getBlogById,
     options: {
       auth: "basic",
@@ -97,7 +97,7 @@ const routes = [
   },
   {
     method: "DELETE",
-    path: "/blogs/{blog_id}",
+    path: "/blog/{blog_id}",
     handler: deleteBlog,
     options: {
       auth: "basic",
