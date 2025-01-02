@@ -7,19 +7,34 @@
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js"
   },
-  "keywords": ["zobkazi-api", "api", "zobkazi"],
-  "author": "Zobkazi",
+  "keywords": [
+    "zobkazi-api",
+    "api",
+    "zobkazi",
+    "api.zobkazi",
+    "zobaidulkazi",
+    "mdzobaidulislamkazi",
+    "fullstackdeveloper-bangladesh"
+  ],
+  "author": "Zobaidul Kazi",
   "license": "ISC",
-  "description": "",
+  "description": "As a passionate Full Stack Developer with a deep expertise in building salable web applications and tackling complex problems.",
   "dependencies": {
     "@hapi/basic": "^7.0.2",
     "@hapi/cookie": "^12.0.1",
     "@hapi/hapi": "^21.3.10",
+    "@hapi/inert": "^7.1.0",
+    "@hapi/vision": "^7.0.3",
     "bcryptjs": "^2.4.3",
     "boom": "^7.3.0",
     "dotenv": "^16.4.5",
+    "hapi-swagger": "^17.3.2",
+    "inert": "^5.1.3",
     "joi": "^17.13.3",
-    "mongoose": "^8.5.3"
+    "js-yaml": "^4.1.0",
+    "mongoose": "^8.5.3",
+    "swagger-jsdoc": "^6.2.8",
+    "vision": "^5.4.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

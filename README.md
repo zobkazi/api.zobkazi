@@ -50,7 +50,7 @@ NODE_ENV=development
 Here is a list of available API endpoints:
 
 - `GET /` - Root endpoint that returns a welcome message.
-- `POST /user` - Endpoint to process and store data.
+- `POST /users` - Endpoint to process and store data.
 - `GET /user/{name}` - Retrieve stored data.
 
 ### Contributing
