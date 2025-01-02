@@ -33,7 +33,7 @@ const routes = [
   },
   {
     method: "POST",
-    path: "/auth/logout",
+    path: "/api/auth/logout",
     handler: logout,
     options: {
       auth: "session",
@@ -41,7 +41,7 @@ const routes = [
   },
   {
     method: "PUT",
-    path: "/user/update/{userId}",
+    path: "/api/user/update/{userId}",
     handler: updateUser,
     options: {
       auth: "basic",
@@ -49,7 +49,7 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/user",
+    path: "/api/users",
     handler: grtAllUsers,
     options: {
       auth: false,
@@ -57,7 +57,7 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/user/{name}",
+    path: "/api/user/{name}",
     handler: getUserByName,
     options: {
       auth: false,
@@ -65,7 +65,7 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/dashboard/admin/{name}",
+    path: "/api/dashboard/admin/{name}",
     handler: getUserByAdmin,
     options: {
       auth: "basic",
@@ -73,7 +73,7 @@ const routes = [
   },
   {
     method: "POST",
-    path: "/blogs",
+    path: "/api/blog",
     handler: createBlog,
     options: {
       auth: "basic",
@@ -81,7 +81,7 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/blogs",
+    path: "/api/blogs",
     handler: getBlogs,
     options: {
       auth: false,
@@ -89,7 +89,7 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/blog/{blog_id}",
+    path: "/api/blog/{blog_id}",
     handler: getBlogById,
     options: {
       auth: "basic",
@@ -97,7 +97,7 @@ const routes = [
   },
   {
     method: "DELETE",
-    path: "/blog/{blog_id}",
+    path: "/api/blog/{blog_id}",
     handler: deleteBlog,
     options: {
       auth: "basic",
