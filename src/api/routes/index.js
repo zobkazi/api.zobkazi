@@ -103,6 +103,17 @@ const routes = [
       auth: "basic",
     },
   },
+   // Swagger Docs Route
+   {
+    method: "GET",
+    path: "/docs",
+    handler: (request, h) => {
+      return h.redirect('/documentation');
+    },
+    options: {
+      auth: false
+    },
+  },
 ];
 
 module.exports = routes;
