@@ -57,7 +57,7 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/users/{name}",
+    path: "/user/{name}",
     handler: getUserByName,
     options: {
       auth: false,

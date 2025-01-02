@@ -7,10 +7,10 @@
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js"
   },
-  "keywords": ["zobkazi-api", "api", "zobkazi"],
-  "author": "Zobkazi",
+  "keywords": ["zobkazi-api", "api", "zobkazi", "api.zobkazi", "zobaidulkazi", "mdzobaidulislamkazi", "fullstackdeveloper-bangladesh"],
+  "author": "Zobaidul Kazi",
   "license": "ISC",
-  "description": "",
+  "description": "As a passionate Full Stack Developer with a deep expertise in building salable web applications and tackling complex problems.",
   "dependencies": {
     "@hapi/basic": "^7.0.2",
     "@hapi/cookie": "^12.0.1",
