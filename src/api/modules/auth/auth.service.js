@@ -7,8 +7,8 @@ const Boom = require("@hapi/boom");
 
 const SALT_ROUNDS = 10;
 
-// Service for user signup
-const signupUser = async (userData) => {
+// Service for user register
+const registerUser = async (userData) => {
   try {
     // Check if user already exists
     const existingUser = await User.findOne({ email: userData.email });
@@ -36,7 +36,7 @@ const signupUser = async (userData) => {
 };
 
 // Service for user signin
-const signinUser = async (credentials) => {
+const loginUser = async (credentials) => {
   try {
     // Check if user exists
     const user = await User.findOne({ email: credentials.email });
@@ -68,4 +68,4 @@ const signinUser = async (credentials) => {
 };
 
 // Export services
-module.exports = { signupUser, signinUser };
+module.exports = { registerUser, loginUser };

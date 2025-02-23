@@ -1,169 +1,43 @@
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-      max: {
-        length: 32,
-        message: "name can not be more than 32 characters",
-      },
-    },
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true,
-      lowercase: true,
-      max: {
-        length: 32,
-        message: "email can not be more than 32 characters",
-      },
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      enum: ["user", "admin"],
-      default: "user",
-    },
-    gravatar_url: {
-      type: String,
-      default:
-        "https://1.gravatar.com/userimage/241833398/61fee49c1ae17085e881748fb4ac221e?size=600",
-      min: {
-        length: 10,
-        message: "gravatar_url can not be less than 10 characters",
-      },
-      max: {
-        length: 200,
-        message: "gravatar_url can not be more than 200 characters",
-      },
-      trim: true,
-    },
-    html_url: {
-      type: String,
-      default: "https://github.com/zobkazi",
-      min: {
-        length: 10,
-        message: "html_url can not be less than 10 characters",
-      },
-      max: {
-        length: 200,
-        message: "html_url can not be more than 200 characters",
-      },
-      trim: true,
-    },
-    organizations_url: {
-      type: String,
-      default: "https://api.github.com/users/zobkazi/orgs",
-      min: {
-        length: 10,
-        message: "organizations_url can not be less than 10 characters",
-      },
-      max: {
-        length: 200,
-        message: "organizations_url can not be more than 200 characters",
-      },
-      trim: true,
-    },
-    organizations_name: {
-      type: String,
-      default: "kazi byte",
-      min: {
-        length: 3,
-        message: "organizations_name can not be less than 3 characters",
-      },
-      max: {
-        length: 30,
-        message: "organizations_name can not be more than 30 characters",
-      },
-      trim: true,
-    },
-    bio: {
-      type: String,
-      default: "I am a student",
-      max: {
-        length: 200,
-        message: "bio can not be more than 200 characters",
-      },
-      min: {
-        length: 10,
-        message: "bio can not be less than 10 characters",
-      },
-      trim: true,
-    },
-    location: {
-      type: String,
-      default: "Dhaka",
-      max: {
-        length: 30,
-        message: "location can not be more than 30 characters",
-      },
-      min: {
-        length: 3,
-        message: "location can not be less than 3 characters",
-      },
-      trim: true,
-    },
-
-    linkdin_url: {
-      type: String,
-      default: "https://www.linkedin.com/in/zobkazi/",
-      min: {
-        length: 10,
-        message: "linkdin_url can not be less than 10 characters",
-      },
-      max: {
-        length: 200,
-        message: "linkdin_url can not be more than 200 characters",
-      },
-      trim: true,
-    },
-
-    github_url: {
-      type: String,
-      default: "https://github.com/zobkazi",
-      min: {
-        length: 10,
-        message: "github_url can not be less than 10 characters",
-      },
-      max: {
-        length: 200,
-        message: "github_url can not be more than 200 characters",
-      },
-      trim: true,
-    },
-    gitlab_url: {
-      type: String,
-      default: "https://gitlab.com/zobkazi",
-      min: {
-        length: 10,
-        message: "gitlab_url can not be less than 10 characters",
-      },
-      max: {
-        length: 200,
-        message: "gitlab_url can not be more than 200 characters",
-      },
-      trim: true,
-    },
-    x_url: {
-      type: String,
-      default: "https://x.com/zobkazi",
-      min: {
-        length: 10,
-        message: "x_url can not be less than 10 characters",
-      },
-      max: {
-        length: 200,
-        message: "x_url can not be more than 200 characters",
-      },
-      trim: true,
-    },
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, trim: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ["user", "admin"], default: "user" },
+    login: { type: String, default: "" },
+    id: { type: Number, default: 0 },
+    node_id: { type: String, default: "" },
+    avatar_url: { type: String, default: "" },
+    gravatar_id: { type: String, default: "" },
+    url: { type: String, default: "" },
+    html_url: { type: String, default: "" },
+    linkedin_url: {type: String, default: ""},
+    followers_url: { type: String, default: "" },
+    following_url: { type: String, default: "" },
+    gists_url: { type: String, default: "" },
+    starred_url: { type: String, default: "" },
+    subscriptions_url: { type: String, default: "" },
+    organizations_url: { type: String, default: "" },
+    repos_url: { type: String, default: "" },
+    events_url: { type: String, default: "" },
+    received_events_url: { type: String, default: "" },
+    type: { type: String, default: "User" },
+    site_admin: { type: Boolean, default: false },
+    company: { type: String, default: "" },
+    blog: { type: String, default: "" },
+    location: { type: String, default: "" },
+    hireable: { type: Boolean, default: false },
+    bio: { type: String, default: "" },
+    twitter_username: { type: String, default: "" },
+    public_repos: { type: Number, default: 0 },
+    public_gists: { type: Number, default: 0 },
+    followers: { type: Number, default: 0 },
+    following: { type: Number, default: 0 },
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now },
   },
   {
     timestamps: true,
@@ -172,5 +46,3 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model("User", userSchema);
-
-module.exports = User;

@@ -5,7 +5,7 @@ const {
   grtAllUsers,
   updateUser,
 } = require("../modules/user/user.controller");
-const { signin, signup, logout } = require("../modules/auth/auth.controller");
+const { registerController, loginController, logout } = require("../modules/auth/auth.controller");
 const { createBlog } = require("../modules/blog/blog.controller");
 const {
   getBlogs,
@@ -17,28 +17,29 @@ const { checkAdminRole } = require("../../plugins/checkAdminRole");
 const routes = [
   {
     method: "POST",
-    path: "/auth/signup",
-    handler: signup,
+    path: "/auth/register",
+    handler: registerController,
     options: {
       auth: false,
     },
   },
   {
     method: "POST",
-    path: "/auth/signin",
-    handler: signin,
+    path: "/auth/login",
+    handler: loginController,
     options: {
       auth: false,
     },
   },
   {
     method: "POST",
-    path: "/api/auth/logout",
+    path: "/auth/logout",
     handler: logout,
     options: {
       auth: "session",
     },
   },
+  // users
   {
     method: "PUT",
     path: "/api/user/update/{userId}",

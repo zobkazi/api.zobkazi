@@ -5,7 +5,7 @@ exports.loginSchema = Joi.object({
   password: Joi.string().required(),
 });
 
-exports.signupSchema = Joi.object({
+exports.registerSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
