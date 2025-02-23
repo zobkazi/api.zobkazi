@@ -11,7 +11,7 @@ const createBlog = async (request, h) => {
   }
 
   const blog = new Blog({
-    title: payload.title,
+    slug: payload.slug,
     content: payload.content,
   });
   await blog.save();

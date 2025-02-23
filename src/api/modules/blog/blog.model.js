@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const blogSchema = new Schema(
   {
-    title: {
+    slug: {
       type: String,
       required: true,
     },

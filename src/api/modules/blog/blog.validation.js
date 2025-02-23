@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
 exports.createBlogSchema = Joi.object({
-  title: Joi.string().required(),
+  slug: Joi.string().required(),
   content: Joi.string().required(),
 });
