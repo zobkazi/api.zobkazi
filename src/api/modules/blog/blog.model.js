@@ -1,14 +1,27 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 const blogSchema = new Schema(
   {
     slug: {
       type: String,
       required: true,
+      unique: true,
     },
     content: {
       type: String,
       required: true,
+    },
+    author: {
+      type: String,
+      required: true,
+    },
+    tags: {
+      type: [String],
+      default: [],
+    },
+    readTime: {
+      type: Number,
+      default: 0,
     },
   },
   {
@@ -17,6 +30,6 @@ const blogSchema = new Schema(
   }
 );
 
-const Blog = model("Blog", blogSchema);
+const Blog = model('Blog', blogSchema);
 
 module.exports = Blog;

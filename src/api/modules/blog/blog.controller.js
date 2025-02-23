@@ -1,87 +1,99 @@
-const Blog = require("./blog.model");
-const Joi = require("joi");
-const { createBlogSchema } = require("./blog.validation");
+const blogService = require('./blog.services');
+const { createBlogSchema } = require('./blog.validation'); // Import the schema
 
-// create blog controller
-
+// Controller to handle creating a new blog post
 const createBlog = async (request, h) => {
-  const payload = await createBlogSchema.validateAsync(request.payload);
-  if (payload.error) {
-    throw Boom.badRequest(payload.error.message);
+  const { slug, content, author, tags } = request.payload;
+
+  // Validate incoming data with Joi schema
+  try {
+    await createBlogSchema.validateAsync(request.payload);
+  } catch (error) {
+    return h.response({ error: error.details[0].message }).code(400);
   }
 
-  const blog = new Blog({
-    slug: payload.slug,
-    content: payload.content,
-  });
-  await blog.save();
-  return h
-    .response({
-      message: "blog created successfully",
-      data: blog,
-      success: true,
-      status: 200,
-      error: null,
-    })
-    .code(200);
-};
+  try {
+    const newBlog = await blogService.createBlog({
+      slug,
+      content,
+      author,
+      tags,
+    });
 
-// get all blogs controller
-
-const getBlogs = async (request, h) => {
-  const blogs = await Blog.find();
-  return h
-    .response({
-      message: "blogs fetched successfully",
-      data: blogs,
-      success: true,
-      status: 200,
-      error: null,
-    })
-    .code(200);
-};
-
-// get blog by id controller
-
-const getBlogById = async (request, h) => {
-  const blog = await Blog.findById(request.params.id);
-  if (!blog) {
-    throw Boom.notFound("blog not found");
+    return h.response({
+      message: 'Blog created successfully',
+      blog: newBlog,
+    }).code(201);
+  } catch (error) {
+    return h.response({ error: error.message }).code(500);
   }
-  return h
-    .response({
-      message: "blog fetched successfully",
-      data: blog,
-      success: true,
-      status: 200,
-      error: null,
-    })
-    .code(200);
 };
 
-// delete blog controller
+// Controller to handle updating a blog post
+const updateBlog = async (request, h) => {
+  const { blogId } = request.params;
+  const { slug, content, author, tags } = request.payload;
 
+  try {
+    const updatedBlog = await blogService.updateBlog(blogId, {
+      slug,
+      content,
+      author,
+      tags,
+    });
+
+    return h.response({
+      message: 'Blog updated successfully',
+      blog: updatedBlog,
+    }).code(200);
+  } catch (error) {
+    return h.response({ error: error.message }).code(500);
+  }
+};
+
+// Controller to fetch a blog by slug
+const getBlogBySlug = async (request, h) => {
+  const { slug } = request.params;
+
+  try {
+    const blog = await blogService.getBlogBySlug(slug);
+    return h.response(blog).code(200);
+  } catch (error) {
+    return h.response({ error: error.message }).code(404);
+  }
+};
+
+// Controller to get all blogs with pagination
+const getAllBlogs = async (request, h) => {
+  const { page = 1, limit = 10 } = request.query;
+
+  try {
+    const result = await blogService.getAllBlogs(page, limit);
+    return h.response(result).code(200);
+  } catch (error) {
+    return h.response({ error: error.message }).code(500);
+  }
+};
+
+// Controller to delete a blog post by ID
 const deleteBlog = async (request, h) => {
-  const blog = await Blog.findByIdAndDelete(request.params.id);
-  if (!blog) {
-    throw Boom.notFound("blog not found");
-  }
-  return h
-    .response({
-      message: "blog deleted successfully",
-      data: blog,
-      success: true,
-      status: 200,
-      error: null,
-    })
-    .code(200);
-};
+  const { blogId } = request.params;
 
-// create blog controller
+  try {
+    const deletedBlog = await blogService.deleteBlog(blogId);
+    return h.response({
+      message: 'Blog deleted successfully',
+      blog: deletedBlog,
+    }).code(200);
+  } catch (error) {
+    return h.response({ error: error.message }).code(404);
+  }
+};
 
 module.exports = {
-  createBlog,
-  getBlogs,
-  getBlogById,
   deleteBlog,
+  createBlog,
+  getAllBlogs,
+  getBlogBySlug,
+  updateBlog,
 };

@@ -14,10 +14,7 @@ const {
 } = require("../modules/auth/auth.controller");
 
 const {
-  createBlog,
-  getBlogs,
-  getBlogById,
-  deleteBlog,
+createBlog, deleteBlog, getAllBlogs, getBlogBySlug, updateBlog 
 } = require("../modules/blog/blog.controller");
 
 const { checkAdminRole } = require("../../plugins/checkAdminRole");
@@ -126,7 +123,7 @@ const routes = [
   {
     method: "GET",
     path: "/api/blogs",
-    handler: getBlogs,
+    handler: getAllBlogs,
     options: {
       auth: false,
       tags: ["api", "blogs"],
@@ -135,12 +132,22 @@ const routes = [
   },
   {
     method: "GET",
-    path: "/api/blogs/{blogId}",  // Consistent parameter naming
-    handler: getBlogById,
+    path: "/api/blogs/{slug}",  // Consistent parameter naming
+    handler: getBlogBySlug,
     options: {
       auth: "jwt",
       tags: ["api", "blogs"],
       description: "Get blog post by ID"
+    }
+  },
+  {
+    method: "PUT",
+    path: "/api/blogs/{blogId}",  // Consistent parameter naming
+    handler: updateBlog,
+    options: {
+      auth: "jwt",
+      tags: ["api", "blogs"],
+      description: "Update blog post by ID"
     }
   },
   {
