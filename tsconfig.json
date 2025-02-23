@@ -1,21 +1,30 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2023",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
-  }
+	"compileOnSave": false,
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": ["ES6"],
+		"allowJs": true,
+		"module": "CommonJS",
+		"rootDir": ".",
+		"outDir": "./dist",
+		"esModuleInterop": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true,
+		"typeRoots": ["src/schemas", "./node_modules/@types"],
+		"sourceMap": true,
+		"types": ["node", "express"],
+		"noImplicitAny": false,
+		"baseUrl": "./src",
+		"paths": {
+			"@/*": ["*"]
+		}
+	},
+"include": [
+		"./api/**/*.ts",
+		"src/**/*.ts"],
+	"exclude": ["node_modules","**/*.spec.ts", "dist", "tsconfig.json", "tsconfig.preset.json"]	
 }
