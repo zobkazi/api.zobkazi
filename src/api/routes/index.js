@@ -135,9 +135,9 @@ const routes = [
     path: "/api/blogs/{slug}",  // Consistent parameter naming
     handler: getBlogBySlug,
     options: {
-      auth: "jwt",
+      auth: false,
       tags: ["api", "blogs"],
-      description: "Get blog post by ID"
+      description: "Get blog post by slug"
     }
   },
   {
