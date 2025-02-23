@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const createBlogSchema = Joi.object({
+const validateBlog = Joi.object({
   slug: Joi.string()
     .required()
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
@@ -28,5 +28,4 @@ const createBlogSchema = Joi.object({
     .default(0),
 });
 
-
-module.exports = createBlogSchema;
+module.exports = validateBlog;

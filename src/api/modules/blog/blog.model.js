@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const blogSchema = new Schema(
   {
@@ -30,6 +30,13 @@ const blogSchema = new Schema(
   }
 );
 
-const Blog = model('Blog', blogSchema);
+// Auto-calculate read time before saving
+blogSchema.pre("save", function (next) {
+  const wordsPerMinute = 200;
+  const words = this.content.split(/\s+/).length;
+  this.readTime = Math.ceil(words / wordsPerMinute);
+  next();
+});
 
+const Blog = model("Blog", blogSchema);
 module.exports = Blog;
