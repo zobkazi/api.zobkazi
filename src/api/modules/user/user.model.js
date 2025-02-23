@@ -4,6 +4,7 @@ const Joi = require("joi");
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
+    username: {type: String, trim: true},
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["user", "admin"], default: "user" },
@@ -36,8 +37,6 @@ const userSchema = new mongoose.Schema(
     public_gists: { type: Number, default: 0 },
     followers: { type: Number, default: 0 },
     following: { type: Number, default: 0 },
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now },
   },
   {
     timestamps: true,
@@ -46,3 +45,5 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model("User", userSchema);
+
+module.exports = User;

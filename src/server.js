@@ -1,7 +1,7 @@
 // src/server.js
 const Hapi = require("@hapi/hapi");
 const router = require("../src/api/routes");
-const basicAuthPlugin = require("./plugins/basicAuthPlugin");
+const authPlugin = require("./plugins/authPlugin");
 const sessionPlugin = require("./plugins/sessionPlugin");
 const swaggerPlugin = require('./plugins/swaggerPlugin');
 
@@ -22,7 +22,7 @@ const app = Hapi.server({
 
 const startServer = async () => {
   try {
-    await app.register(basicAuthPlugin);
+    await app.register(authPlugin);
     await app.register(sessionPlugin);
     await app.register(swaggerPlugin);
 

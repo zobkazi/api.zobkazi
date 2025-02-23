@@ -1,9 +1,8 @@
 const Joi = require("joi");
 
-const userValidationSchema = Joi.object({
-  name: Joi.string().trim().required(),
-  email: Joi.string().trim().email().required(),
-  password: Joi.string().min(6).required(),
+const updateUserSchema = Joi.object({
+  name: Joi.string().trim().max(30).min(3),
+  username: Joi.string().trim().lowercase().min(3).max(30),
   role: Joi.string().valid("user", "admin").default("user"),
   login: Joi.string().trim().allow(""),
   id: Joi.number().default(0),
@@ -38,4 +37,4 @@ const userValidationSchema = Joi.object({
   updated_at: Joi.date().default(Date.now),
 });
 
-module.exports = userValidationSchema;
+module.exports = updateUserSchema;

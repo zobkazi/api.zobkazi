@@ -1,30 +1,38 @@
-// const Hapi = require("@hapi/hapi");
-// const Jwt = require("@hapi/jwt");
+// src/plugins/auth.plugin.js
+const Jwt = require('@hapi/jwt');
 
-// const authPlugin = {
-//   name: "authPlugin",
-//   register: async (server, options) => {
-//     // Register JWT plugin
-//     await server.register(Jwt);
+const authPlugin = {
+  name: 'authPlugin',
+  version: '1.0.0',
+  register: async (server, options) => {
+    await server.register(Jwt); // Ensure the JWT plugin is registered
 
-//     // Define JWT authentication strategy
-//     server.auth.strategy("jwt", "jwt", {
-//       keys: process.env.JWT_SECRET || "zobkazi", // Your JWT secret key
-//       verify: {
-//         aud: false,
-//         iss: false,
-//         sub: false,
-//         maxAgeSec: 14400, // Token expiration time (4 hours)
-//       },
-//       validate: async (artifacts, request, h) => {
-//         const payload = artifacts.decoded.payload;
-//         return { isValid: true, credentials: payload };
-//       },
-//     });
+    server.auth.strategy('jwt', 'jwt', {
+      keys: process.env.JWT_SECRET || 'your-secret-key',
+      verify: {
+        aud: false,
+        iss: false,
+        sub: false,
+        maxAgeSec: 14400, // 4 hours
+      },
+      validate: async (artifacts, request, h) => {
+        try {
+          // artifacts contains decoded token
+          return {
+            isValid: true,
+            credentials: artifacts.decoded.payload
+          };
+        } catch (err) {
+          return {
+            isValid: false
+          };
+        }
+      }
+    });
 
-//     // Set default authentication strategy
-//     server.auth.default("jwt");
-//   },
-// };
+    // Set jwt as default auth strategy
+    server.auth.default('jwt');
+  }
+};
 
-// module.exports = authPlugin;
+module.exports = authPlugin;
