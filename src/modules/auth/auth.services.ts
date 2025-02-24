@@ -6,37 +6,30 @@ import jwt from "jsonwebtoken";
 
 // Register Service
 export const registerServices = async (data: TRegister): Promise<Document> => {
-  // Check if email already exists
   const existingEmail = await User.findOne({ email: data.email });
   if (existingEmail) {
     throw new Error("Email already taken");
   }
 
-  // Hash the password before saving the user
   const hashedPassword = await bcrypt.hash(data.password, 10);
   data.password = hashedPassword;
 
-  // Create user
   const user = await User.create(data);
-
   return user;
 };
 
 // Login Service
 export const loginServices = async (data: TLogin): Promise<string> => {
-  // Check if user exists
   const user = await User.findOne({ email: data.email }).select("+password");
   if (!user) {
     throw new Error("Invalid email or password");
   }
 
-  // Validate password
   const isPasswordValid = await bcrypt.compare(data.password, user.password);
   if (!isPasswordValid) {
     throw new Error("Invalid email or password");
   }
 
-  // Generate JWT token
   const secret = process.env.JWT_SECRET || "kazi";
   const expiresIn = "1d";
 
@@ -48,4 +41,18 @@ export const loginServices = async (data: TLogin): Promise<string> => {
   };
 
   return jwt.sign(payload, secret, { expiresIn });
+};
+
+// Logout Service
+export const logoutServices = async () => {
+  return true; // Logout logic is handled at the controller level by clearing cookies
+};
+
+// Delete User Service
+export const deleteUserServices = async (userId: string) => {
+  const user = await User.findByIdAndDelete(userId);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return user;
 };

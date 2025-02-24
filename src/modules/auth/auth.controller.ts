@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { loginSchema, registerSchema } from "./auth.validation";
-import { loginServices, registerServices } from "./auth.services";
+import { deleteUserServices, loginServices, logoutServices, registerServices } from "./auth.services";
 
 // registerController
 
@@ -22,8 +22,7 @@ export const registerController = async (
     const user = await registerServices(parsedBody.data);
     res.status(201).json({
       success: true,
-      message: "User created successfully",
-      data: user,
+      message: "User created successfully"
     });
   } catch (error) {
     next(error);
@@ -64,5 +63,46 @@ export const loginController = async (
     });
   } catch (error) {
     next(error);
+  }
+};
+
+
+// Logout Controller
+export const logoutController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await logoutServices();
+    res.clearCookie("token", { httpOnly: true, sameSite: "strict" });
+
+    res.status(200).json({
+      success: true,
+      message: "User logged out successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Logout failed",
+      error
+    });
+  }
+};
+
+
+
+// Delete User Controller
+export const deleteUserController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.params.id
+    await deleteUserServices(userId);
+
+    res.status(200).json({
+      success: true,
+      message: "User account deleted successfully",
+    });
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      message: "User deletion failed",
+      error
+    });
   }
 };
