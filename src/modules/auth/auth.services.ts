@@ -1,28 +1,51 @@
+import User from "../user/user.model";
+import { TRegister, TLogin } from "./auth.validation";
 import bcrypt from "bcryptjs";
+import { Document } from "mongoose";
 import jwt from "jsonwebtoken";
-import { UserModel, IUser } from "./auth.model";
 
-export class AuthService {
-  static async registerUser(userData: IUser) {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const user = new UserModel({ ...userData, password: hashedPassword });
-    await user.save();
-    return user;
+// Register Service
+export const registerServices = async (data: TRegister): Promise<Document> => {
+  // Check if email already exists
+  const existingEmail = await User.findOne({ email: data.email });
+  if (existingEmail) {
+    throw new Error("Email already taken");
   }
 
-  static async loginUser(email: string, password: string) {
-    const user = await UserModel.findOne({ email });
-    if (!user) throw new Error("Invalid credentials");
+  // Hash the password before saving the user
+  const hashedPassword = await bcrypt.hash(data.password, 10);
+  data.password = hashedPassword;
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new Error("Invalid credentials");
+  // Create user
+  const user = await User.create(data);
 
-    const token = jwt.sign(
-      { userId: user._id, email: user.email },
-      process.env.JWT_SECRET as string,
-      { expiresIn: "1h" }
-    );
+  return user;
+};
 
-    return { user, token };
+// Login Service
+export const loginServices = async (data: TLogin): Promise<string> => {
+  // Check if user exists
+  const user = await User.findOne({ email: data.email }).select("+password");
+  if (!user) {
+    throw new Error("Invalid email or password");
   }
-}
+
+  // Validate password
+  const isPasswordValid = await bcrypt.compare(data.password, user.password);
+  if (!isPasswordValid) {
+    throw new Error("Invalid email or password");
+  }
+
+  // Generate JWT token
+  const secret = process.env.JWT_SECRET || "kazi";
+  const expiresIn = "1d";
+
+  const payload = {
+    id: user._id,
+    username: user.username,
+    email: user.email,
+    role: user.role,
+  };
+
+  return jwt.sign(payload, secret, { expiresIn });
+};
