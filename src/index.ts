@@ -1,22 +1,10 @@
 import app from "./app";
 
+const PORT = process.env.PORT || 5000;
 
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-})
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 
 export default app;
-
-
-
-
-
-
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  /* eslint-disable no-console */
-  console.log(`Listening: http://localhost:${port}`);
-  /* eslint-enable no-console */
-});
