@@ -41,7 +41,7 @@ The server will start and listen at `http://localhost:3000` by default. You can 
 This project uses environment variables for configuration. Create a `.env` file in the project root and specify the necessary values, for example:
 
 ```env
-PORT=3000
+PORT=4000
 NODE_ENV=development
 ```
 
