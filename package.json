@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register ./src/index.ts",
     "build": "tsc & tsc-alias",
-    "vercel-build": "npm run build",
-     "postinstall": "npx prisma generate"
+    "vercel-build": "tsc & tsc-alias && npx prisma generate npm run build"
   },
   "keywords": [],
   "author": "",
