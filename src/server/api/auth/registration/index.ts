@@ -31,7 +31,13 @@ export default defineEventHandler (async (event) => {
             }
         });
 
-        return { message: "User created successfully", user };
+        return { 
+            message: "User created successfully",
+            user: {
+                id: user.id,
+                email: user.email
+            }
+         };
 
 
 

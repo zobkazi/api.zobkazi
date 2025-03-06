@@ -21,8 +21,9 @@ export default defineEventHandler(async (event) => {
     }
 
     // Fetch user from database
+    const { userId } = decoded;
     const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
+      where: { id: Number(userId) },
       select: { id: true, name: true, email: true, createdAt: true },
     });
 

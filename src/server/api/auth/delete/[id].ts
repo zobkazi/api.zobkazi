@@ -19,21 +19,27 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 401, message: "Invalid token" });
     }
 
-    // Check if user exists
+    // Ensure the user has the necessary permission
+    // (In this case, they must be the owner of the account they're deleting)
+    const { userId } = decoded;
+
+    // Check if the user exists
     const user = await prisma.user.findUnique({
-      where: { id: decoded.userId }
+      where: { id: Number(userId) }
     });
 
     if (!user) {
       throw createError({ statusCode: 404, message: "User not found" });
     }
 
-    // Delete user from database
+    // Delete the user from the database
     await prisma.user.delete({
-      where: { id: decoded.userId }
+      where: { id: Number(userId) }
     });
 
-    return { message: "Account deleted successfully" };
+    // Return a structured success response
+    return { statusCode: 200, body: { success: true, message: "Account deleted successfully" } };
+
   } catch (error) {
     const statusCode = (error as any).statusCode || 500;
     return createError({

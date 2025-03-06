@@ -79,3 +79,40 @@ export interface IUser {
   createdAt: Date;
   updatedAt: Date;
 }
+
+
+
+export const updateUserSchema = z.object({
+  id: z.string().optional(),
+  name: z.string(),
+  username: z.string(),
+  role: z.string().default("user"),
+  login: z.string().default(""),
+  nodeId: z.string().default(""),
+  avatarUrl: z.string().default(""),
+  gravatarId: z.string().default(""),
+  url: z.string().default(""),
+  htmlUrl: z.string().default(""),
+  linkedinUrl: z.string().default(""),
+  followersUrl: z.string().default(""),
+  followingUrl: z.string().default(""),
+  gistsUrl: z.string().default(""),
+  starredUrl: z.string().default(""),
+  subscriptionsUrl: z.string().default(""),
+  organizationsUrl: z.string().default(""),
+  reposUrl: z.string().default(""),
+  eventsUrl: z.string().default(""),
+  receivedEventsUrl: z.string().default(""),
+  type: z.string().default("User"),
+  siteAdmin: z.boolean().default(false),
+  company: z.string().default(""),
+  blog: z.string().default(""),
+  location: z.string().default(""),
+  hireable: z.boolean().default(false),
+  bio: z.string().default(""),
+  twitterUsername: z.string().default(""),
+  publicRepos: z.number().int().default(0),
+  publicGists: z.number().int().default(0),
+  followers: z.number().int().default(0),
+  following: z.number().int().default(0)
+});
