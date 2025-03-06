@@ -111,7 +111,7 @@ const handleSignup = async () => {
   loading.value = true;
 
   try {
-    const response = await $fetch("/api/auth/signup", {
+    const response = await $fetch("/api/auth/registration", {
       method: "POST",
       body: { username: username.value, email: email.value, password: password.value },
     });
