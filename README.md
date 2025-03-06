@@ -1,66 +1,75 @@
-# api.zobkazi
+# Nuxt Minimal Starter
 
-## Hapi.js Project
+Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-Welcome to the **api.zobkazi** project! This is a server built using [Hapi.js](https://hapi.dev/), a rich framework for building applications and services.
+## Setup
 
-### Features
-
-- **Lightweight and Modular**: Built with the simplicity and modularity of Hapi.js.
-- **Secure**: Implements security best practices out of the box.
-- **Extensible**: Easily customizable to meet your application needs.
-- **Efficient**: High performance and optimized for production use.
-
-### Installation
-
-To get started, clone this repository and install the required dependencies:
+Make sure to install dependencies:
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-repo/api.zobkazi.git
-
-# Navigate into the project directory
-cd api.zobkazi
-
-# Install dependencies
+# npm
 npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
 ```
 
-### Usage
+## Development Server
 
-Run the server locally:
+Start the development server on `http://localhost:3000`:
 
 ```bash
-npm start
+# npm
+npm run dev
+
+# pnpm
+pnpm dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
 ```
 
-The server will start and listen at `http://localhost:3000` by default. You can customize the port in the configuration file.
+## Production
 
-### Configuration
+Build the application for production:
 
-This project uses environment variables for configuration. Create a `.env` file in the project root and specify the necessary values, for example:
+```bash
+# npm
+npm run build
 
-```env
-PORT=4000
-NODE_ENV=development
+# pnpm
+pnpm build
+
+# yarn
+yarn build
+
+# bun
+bun run build
 ```
 
-### API Endpoints
+Locally preview production build:
 
-Here is a list of available API endpoints:
+```bash
+# npm
+npm run preview
 
-- `GET /` - Root endpoint that returns a welcome message.
-- `POST /users` - Endpoint to process and store data.
-- `GET /user/{name}` - Retrieve stored data.
+# pnpm
+pnpm preview
 
-### Contributing
+# yarn
+yarn preview
 
-Contributions are welcome! If you'd like to contribute, please fork the repository and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
+# bun
+bun run preview
+```
 
-### License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-I am hapy now.
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
